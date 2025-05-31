@@ -1,0 +1,4 @@
+name: BouncyItems
+version: 1.0-SNAPSHOT
+main: net.maxmushroom.bouncyitems.BouncyItems
+api-version: '1.21.4'
