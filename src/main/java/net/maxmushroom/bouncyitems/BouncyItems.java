@@ -1,5 +1,8 @@
 package net.maxmushroom.bouncyitems;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import org.bukkit.Bukkit;
 import org.bukkit.World;
 import org.bukkit.entity.Item;
@@ -19,17 +22,21 @@ public class BouncyItems extends JavaPlugin {
     public void onEnable() {
         BukkitScheduler scheduler = Bukkit.getServer().getScheduler();
         bounceTask = scheduler.runTaskTimer(this, () -> {
+            List<Item> bouncedItems = new ArrayList<>();
             // iterate through all worlds
             for (World world : this.getServer().getWorlds()) {
                 // iterate through each item entity
                 for (Item item : world.getEntitiesByClass(Item.class)) {
-                    // if an item is greater than a minimum distance from a player,
-                    // and within that player's render distance,
-                    // give the item an upward velocity
-                    for (Player player : Bukkit.getOnlinePlayers()) {
+                    // quick exit if item has already been bounced
+                    if (bouncedItems.contains(item)) {
+                        continue;
+                    }
+
+                    for (Player player : world.getPlayers()) {
                         double distance = player.getLocation().distance(item.getLocation());
                         if (distance > 3 && distance < 20) {
                             item.setVelocity(item.getVelocity().add(new Vector(0, VELOCITY, 0)));
+                            bouncedItems.add(item);
                         }
                     }
 

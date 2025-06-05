@@ -1,4 +1,4 @@
 name: BouncyItems
-version: 0.1.0
+version: ${project.version}
 main: net.maxmushroom.bouncyitems.BouncyItems
 api-version: '1.21.4'
